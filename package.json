@@ -1,0 +1,13 @@
+{
+  "name": "web-security-assignment-evidence",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Optional local browser verification and evidence capture",
+  "scripts": {
+    "capture": "node scripts/capture-demo.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}
+

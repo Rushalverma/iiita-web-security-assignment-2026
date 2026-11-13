@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Account dashboard{% endblock %}
+{% block content %}
+<div class="page-top"><a class="back-link" href="{{ url_for('login', mode=mode) }}">&larr; Back to login</a><span class="eyebrow">{{ mode }} IMPLEMENTATION</span></div>
+<section class="dashboard-card">
+  <span class="eyebrow success-text">AUTHENTICATED SESSION</span>
+  <h1>Welcome, {{ user.username }}.</h1>
+  <p class="intro">This page requires a successful login in the {{ mode }} version.</p>
+  <dl class="account-details"><div><dt>Account</dt><dd>{{ user.username }}</dd></div><div><dt>Role</dt><dd>{{ user.role }}</dd></div><div><dt>Record ID</dt><dd>{{ user.id }}</dd></div></dl>
+  <div class="note"><strong>Protected demo content</strong><span>This fictional account belongs to the Web Security Lab. No real records are used.</span></div>
+  <form method="post" action="{{ url_for('logout', mode=mode) }}"><button type="submit">Log out and clear this session &rarr;</button></form>
+</section>
+{% endblock %}
+

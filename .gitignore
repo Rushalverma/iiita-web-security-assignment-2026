@@ -1,0 +1,13 @@
+.venv/
+node_modules/
+__pycache__/
+*.py[cod]
+instance/
+*.sqlite3
+sql-auth-bypass/tests/tmp*/
+.env
+.DS_Store
+evidence/raw/
+*.webm
+*.mp4
+
