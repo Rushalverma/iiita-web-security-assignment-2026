@@ -14,10 +14,19 @@ The project guide links to the source, evidence, and study materials. [IIT202404
 - [ ] Rushal has reviewed, run, and can explain the code himself.
 - [ ] Rushal has recorded his own 2-3 minute voice-over and screen demonstration.
 
+## Herit's Reflected XSS component
+
+- [x] Ownership entry, runnable mitigation demo, API tests, and browser evidence.
+- [x] Root cause, alternative mitigations, and a narration guide.
+- [ ] Check with the instructor whether a mitigation-only demo satisfies the vulnerable implementation and exploit requirements.
+- [ ] Herit has reviewed the code and recorded his own narrated segment.
+
+[IIT2024054 project guide](../IIT2024054/README.md)
+
 ## Whole group
 
 - [ ] Confirm that a five-person group is accepted; the assignment header and detailed instructions differ.
-- [ ] Add the other four members' roll-number folders, project guides, and ownership entries.
+- [ ] Add the remaining two members' roll-number folders, project guides, and ownership entries.
 - [ ] Cover all four categories with different variants for anyone sharing a category.
 - [ ] Combine all narrated demonstrations into one group video.
 - [ ] Ensure the public repository can be opened without signing in.

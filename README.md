@@ -4,16 +4,17 @@
 
 This repository contains individual projects developed for the Web Server Security assignment. Each member's implementation is maintained in a separate folder named after their roll number.
 
-Each project guide covers setup instructions, the assigned vulnerability, its exploitation, the implemented mitigation, and demonstration evidence.
+Each project guide covers setup, the assigned vulnerability, its mitigation, and the available demonstration evidence.
 
 ## Group ownership
 
 | **Member** | **Roll number** | **Vulnerability** | **Variant** | **Project guide** |
 |---|---|---|---|---|
 | Rushal Verma | IIT2024045 | SQL Injection | Authentication bypass | [SQL authentication lab](IIT2024045/README.md) |
+| Herit Desai | IIT2024054 | Cross-Site Scripting (XSS) | Reflected XSS | [Reflected XSS project](IIT2024054/README.md) |
 | Surbhi Kumari Sah | IIT2024063 | Cross-Site Scripting (XSS) | Stored XSS | [Stored XSS project](IIT2024063/README.md) |
 
-Three ownership entries and their projects are pending. Add each row when the member's name, roll number, and variant are confirmed.
+Two ownership entries and their projects are pending. Add each row when the member's name, roll number, and variant are confirmed.
 
 The assignment covers SQL injection, OS command injection, XSS, and CSRF. Members sharing a vulnerability category demonstrate distinct variants.
 
@@ -42,6 +43,14 @@ Both modes use the same stored comments to demonstrate the vulnerability and ver
 
 [View project guide](IIT2024063/README.md)
 
+### 3. Cross-Site Scripting (XSS) – Reflected XSS
+
+**Member:** Herit Desai · **Roll number:** IIT2024054
+
+A Node.js and Express backend with a React search page. The guide explains reflected XSS and includes browser evidence of React rendering reflected input as text.
+
+[View project guide](IIT2024054/README.md)
+
 ## Run a project
 
 Clone the repository and open the README inside the folder of the project you want to run.
@@ -65,6 +74,14 @@ Follow the setup instructions in the respective project guide.
 │   ├── tests/
 │   ├── evidence/
 │   └── docs/
+│
+├── IIT2024054/                  Herit's Reflected XSS mitigation demo
+│   ├── README.md                Setup and walkthrough
+│   ├── server/                  Express API and startup
+│   ├── src/                     React page and styles
+│   ├── tests/                   API checks
+│   ├── evidence/                Browser screenshots
+│   └── docs/                    Narration guide and viva notes
 │
 ├── IIT2024063/                  Surbhi's Stored XSS project
 │   ├── README.md                Setup and project documentation
