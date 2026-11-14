@@ -10,7 +10,6 @@
 
 - Node.js and npm
 - MySQL Server 8.0 or later
-- Git
 
 ### 1. Clone the repository
 
@@ -27,21 +26,17 @@ npm install
 
 ### 3. Configure the database
 
-Make sure your MySQL server is running.
-
-Import the database schema:
+Ensure that MySQL Server is running and import the database schema:
 
 ```bash
 mysql -u root -p < database/schema.sql
 ```
 
-The schema creates the application database, database user, and comments table.
-
 ### 4. Configure environment variables
 
-Copy `.env.example` to `.env` and update the database credentials according to your MySQL configuration.
+Copy `.env.example` to `.env` and configure your database credentials.
 
-Example configuration:
+Example:
 
 ```env
 DB_HOST=127.0.0.1
@@ -52,7 +47,7 @@ DB_NAME=stored_xss_demo
 PORT=3000
 ```
 
-Do not commit your `.env` file or share database credentials.
+Do not commit `.env` or share database credentials.
 
 ### 5. Start the application
 
@@ -64,36 +59,36 @@ Open the application at:
 
 **http://localhost:3000**
 
-No preconfigured fictional accounts are required. Users can submit comments through the application.
+No preconfigured accounts are required. Users can submit comments through the application.
 
 ## Vulnerability and root cause
 
 Stored Cross-Site Scripting (Stored XSS) occurs when an application stores untrusted user input and later displays it in a webpage without properly handling it.
 
-In this project, users can submit comments through a feedback application. The comments are stored in a MySQL database and displayed when the application loads.
+This project implements a comment and feedback application where user-submitted comments are stored in a MySQL database and displayed on the webpage.
 
 ### Vulnerable implementation
 
 - **Source file:** `views/vulnerableRenderer.js`
 - **Related route:** `routes/comments.js`
 
-The vulnerable renderer inserts stored comment content into the HTML without appropriate output encoding.
+The vulnerable renderer inserts stored comment content into HTML without appropriate output encoding.
 
-An attacker can submit a malicious payload such as:
+An attacker can submit the following payload:
 
 ```html
 <script>alert('Stored XSS Demonstration')</script>
 ```
 
-The payload is stored in the database. Whenever the comments are displayed in Vulnerable Mode, the browser interprets and executes the injected JavaScript.
+The payload is stored in the database. When comments are rendered in Vulnerable Mode, the browser interprets and executes the injected JavaScript.
 
-This can affect users who subsequently visit the application and view the malicious comment.
+The malicious script can execute again when another user visits or refreshes the page.
 
 ### Root cause
 
 The root cause is the unsafe handling of untrusted user input during HTML rendering.
 
-Although the application stores comments in the database, storing the input does not make it safe. The application must properly encode untrusted data when inserting it into an HTML page.
+Storing user input in a database does not make it safe. The application must encode untrusted content appropriately before rendering it in the browser.
 
 ## Implemented mitigation
 
@@ -101,63 +96,80 @@ Although the application stores comments in the database, storing the input does
 
 - **Source file:** `views/secureRenderer.js`
 
-The secure implementation applies context-aware output encoding before inserting user-generated content into the HTML.
+The secure implementation applies context-aware output encoding before inserting user-generated content into HTML.
 
 It uses separate encoding functions for:
 
 - HTML text content.
 - Quoted HTML attribute values.
 
-Special characters are converted into their corresponding HTML entities so that user input is displayed as text rather than interpreted as executable HTML or JavaScript.
+Special characters are converted into their corresponding HTML entities so that user input is displayed as text instead of being interpreted as executable HTML or JavaScript.
 
 ### Verification of mitigation
 
-The same malicious payload is submitted in Vulnerable Mode and then viewed in Secure Mode.
+The same malicious payload is tested in both application modes.
 
-**Before mitigation:**
+**Before mitigation – Vulnerable Mode:**
 - The malicious JavaScript executes.
-- An alert box appears when the comment is rendered.
-- The payload executes again when the page is refreshed.
+- An alert box appears.
+- The payload executes again after refreshing the page.
 
-**After mitigation:**
+**After mitigation – Secure Mode:**
 - The malicious payload is displayed as ordinary text.
-- The browser does not execute the injected JavaScript.
+- No JavaScript alert is triggered.
 - Previously stored malicious comments are also rendered safely.
 
 Both modes use the same stored comments, allowing the vulnerable and secure behavior to be compared.
 
 ## Demonstration and evidence
 
-The demonstration covers the following scenarios:
+The following screenshots document the application's vulnerable behavior, persistence, and implemented mitigation.
 
-| **Test case** | **Expected behavior** |
-|---|---|
-| Normal comment submission | Comment is successfully stored and displayed. |
-| Multiple comments | Multiple comments are displayed correctly. |
-| Stored XSS in Vulnerable Mode | JavaScript payload executes. |
-| Page refresh | Previously stored malicious payload executes again in Vulnerable Mode. |
-| Same payload in Secure Mode | Payload is displayed as text without execution. |
-| Previously stored malicious comment in Secure Mode | Malicious content remains harmless. |
-| Normal comment in Secure Mode | Ordinary comments continue to work correctly. |
-| Server restart | Previously stored comments remain available. |
+### 1. Stored XSS execution in Vulnerable Mode
 
-Add screenshots of the vulnerable execution, repeated execution after refresh, and secure-mode output to the `evidence/` folder.
+The submitted JavaScript payload executes and displays an alert box.
+
+![Stored XSS execution](evidence/01-vulnerable-xss.png.png)
+
+### 2. XSS execution after page refresh
+
+The previously stored malicious comment executes again after refreshing the page, demonstrating persistence.
+
+![XSS after refresh](<evidence/02-xss-after-refresh.png - Copy.png>)
+
+### 3. Same payload in Secure Mode
+
+The malicious payload is displayed as text instead of executing, demonstrating the effectiveness of context-aware output encoding.
+
+![Secure mode](evidence/03-secure-mode.png.png)
+
+### 4. Normal comment in Secure Mode
+
+An ordinary comment is successfully submitted and displayed, demonstrating that the mitigation does not prevent normal application functionality.
+
+![Normal comment](evidence/04-normal-comment.png.png)
+
+### 5. Comment persistence after server restart
+
+Previously submitted comments remain available after restarting the application because they are stored in the MySQL database.
+
+![Persistence after restart](evidence/05-persistence-after-restart.png.png)
 
 ## Other mitigations
 
-The following are alternative or additional measures that can help prevent or reduce the impact of XSS vulnerabilities.
+The following are alternative or additional measures that help prevent or reduce the impact of XSS vulnerabilities.
 
 ### 1. Framework auto-escaping
 
-Modern web frameworks automatically escape dynamic values in many HTML rendering contexts. This helps prevent user input from being interpreted as executable markup.
+Modern web frameworks automatically escape dynamic values in many HTML rendering contexts, helping prevent user input from being interpreted as executable markup.
 
 ### 2. HTML sanitization
 
-When an application intentionally allows users to submit rich HTML content, an HTML sanitizer can remove dangerous elements, attributes, and scripts while preserving permitted formatting.
+When an application intentionally allows rich HTML content, an HTML sanitizer can remove dangerous elements, attributes, and scripts while preserving permitted formatting.
 
 ### 3. Content Security Policy (CSP)
 
-CSP is a browser security mechanism that restricts which scripts and other resources can execute or load. It provides an additional layer of protection if an injection vulnerability exists.
+CSP restricts which scripts and other resources the browser is allowed to execute or load. It provides an additional layer of protection if an injection vulnerability exists.
 
 ### 4. HttpOnly cookies
 
@@ -181,6 +193,6 @@ Run the automated test suite from the project directory:
 node tests/run-tests.js
 ```
 
-The test suite covers normal comment handling, multiple comments, stored XSS execution in vulnerable rendering, repeated execution, secure rendering, special-character handling, and comment persistence.
+The test suite covers normal comment handling, multiple comments, stored XSS behavior in vulnerable rendering, secure rendering, special-character handling, and comment persistence.
 
-The project was initially tested using MySQL 8.0.46 and the automated test suite. Real-browser testing was also performed manually to demonstrate the vulnerable and secure modes.
+The vulnerable and secure application behaviors were also manually demonstrated in the browser, as documented in the evidence section above.
