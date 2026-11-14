@@ -1,0 +1,20 @@
+{
+  "name": "stored-xss",
+  "version": "1.0.0",
+  "description": "Stored XSS demonstration (vulnerable vs. output-encoded) - localhost only",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node tests/run-tests.js"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mysql2": "^3.11.0"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.0"
+  }
+}

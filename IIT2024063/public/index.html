@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guestbook - Stored XSS Demo</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="mode-{{MODE}}">
+  <div class="banner" role="status">
+    <strong>{{MODE_LABEL}}</strong>
+    <span>{{MODE_DESC}}</span>
+  </div>
+
+  <main>
+    <header class="page-head">
+      <h1>Feedback Guestbook</h1>
+      <p>A small comment board used to demonstrate Stored Cross-Site Scripting and its fix.
+         For classroom use on localhost only.</p>
+      <nav class="switch" aria-label="Mode switch">
+        <a href="/?mode=vulnerable" id="link-vulnerable">Vulnerable Mode</a>
+        <a href="/?mode=secure" id="link-secure">Secure Mode</a>
+      </nav>
+    </header>
+
+    {{FLASH}}
+
+    <section class="card">
+      <h2>Leave a comment</h2>
+      <form method="POST" action="/comments" id="comment-form">
+        <input type="hidden" name="mode" value="{{MODE}}">
+        <label for="author">Name</label>
+        <input type="text" id="author" name="author" maxlength="50" required>
+        <label for="message">Comment</label>
+        <textarea id="message" name="message" rows="4" maxlength="2000" required></textarea>
+        <button type="submit">Post comment</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Comments <span class="count">({{COUNT}})</span></h2>
+      <div id="comments">{{COMMENTS}}</div>
+    </section>
+  </main>
+  <script src="/script.js"></script>
+</body>
+</html>
