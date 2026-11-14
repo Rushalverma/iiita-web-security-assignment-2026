@@ -1,12 +1,14 @@
-# SQL injection: authentication bypass
+# SQL injection authentication bypass
 
-**Assigned owner:** Rushal Verma, IIT2024045.
+| Member | Roll number | Category | Variant |
+| --- | --- | --- | --- |
+| Rushal Verma | IIT2024045 | SQL injection | Authentication bypass |
 
-This module compares a vulnerable login against a login using parameterized queries. Both use the same database, accounts, and query conditions; the SQL construction is the important difference.
+This Flask and SQLite lab compares two login implementations that use the same database, accounts, and query conditions. The parameterized implementation binds user input as data.
 
-## Start the application
+## Run locally
 
-From this directory, with Python 3.10+ installed:
+Open a terminal inside IIT2024045 with Python 3.10 or newer. On Windows, run the following commands.
 
 ```powershell
 python -m venv .venv
@@ -14,9 +16,29 @@ python -m venv .venv
 .\.venv\Scripts\python.exe app.py
 ```
 
-Open http://127.0.0.1:5000. Stop with Ctrl+C. If port 5000 is occupied, set `$env:SQLI_LAB_PORT = '5050'` before starting and use http://127.0.0.1:5050. The app binds only to `127.0.0.1` and disables the debugger. On macOS/Linux use `.venv/bin/python` for the virtual environment executable and `SQLI_LAB_PORT=5050 .venv/bin/python app.py` to select another port.
+On macOS or Linux, run the following commands.
 
-SQLite creates `instance/lab.sqlite3` automatically. No external database, credentials, or account setup is required. Sessions are cleared by a server restart because a new random signing key is generated at startup.
+~~~sh
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python app.py
+~~~
+
+Open http://127.0.0.1:5000. Stop the server with Ctrl+C. To change the port to 5050, set `SQLI_LAB_PORT` before launching. In PowerShell use `$env:SQLI_LAB_PORT = '5050'`. On macOS or Linux use `SQLI_LAB_PORT=5050 .venv/bin/python app.py`.
+
+SQLite creates `instance/lab.sqlite3` and seeds the demo accounts on the first run. The server binds to loopback with the debugger disabled. Restarting it clears existing login sessions.
+
+## Source and supporting materials
+
+| File or folder | Contents |
+| --- | --- |
+| [app.py](app.py) | Flask routes, database setup, and the two login implementations |
+| [Templates](templates/) and [styles](static/) | Login views, dashboard, and styles |
+| [Tests](tests/) | Authentication behavior and session checks |
+| [Evidence gallery](evidence/README.md) | Screenshots and capture instructions |
+| [Narration guide](docs/DEMO_SCRIPT.md) | Suggested timing and screens for the individual video segment |
+| [Viva notes](docs/VIVA_NOTES.md) | Questions, explanations, and alternative mitigations |
+| [Verification record](docs/VALIDATION.md) | Recorded test results |
 
 ## Dummy accounts
 
@@ -55,7 +77,7 @@ The quote closes the username string. SQLite treats the rest of the line after `
 
 ## Vulnerable code and implemented mitigation
 
-In `app.py`, read `authenticate_vulnerable` and `authenticate_parameterized`.
+The functions `authenticate_vulnerable` and `authenticate_parameterized` contain the two query paths. [Application source](app.py)
 
 Vulnerable code:
 
@@ -84,9 +106,13 @@ Allow-list validation enforces expected input formats, and is especially useful 
 
 ## Tests
 
+Run the tests from this project folder after installing the Python dependencies.
+
 ```powershell
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
+
+On macOS or Linux, use `.venv/bin/python -m unittest discover -s tests -v`.
 
 The tests cover valid and invalid credentials, a real authenticated dashboard, the exact same payload on both implementations, injection in the password field, a legitimate username containing an apostrophe, session separation, failed-retry session clearing, logout, missing fields, unknown modes, escaped output, and generic database errors. Tests use temporary databases under `tests/` and do not alter the running lab database.
 

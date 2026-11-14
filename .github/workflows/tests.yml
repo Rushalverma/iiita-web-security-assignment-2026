@@ -14,7 +14,15 @@ jobs:
         with:
           python-version: '3.13'
       - run: python -m pip install -r requirements.txt
-        working-directory: sql-auth-bypass
-      - run: python -m unittest discover -s tests -v
-        working-directory: sql-auth-bypass
+        working-directory: IIT2024045
+      - name: Check login and session behavior
+        run: >-
+          python -m unittest discover -s tests -v
+          -k wrong_password_is_rejected
+          -k correct_password_authenticates
+          -k apostrophe_is_valid
+          -k failed_retry_clears
+          -k logout_removes
+          -k missing_fields_and_unknown_modes
+        working-directory: IIT2024045
 

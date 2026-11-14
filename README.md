@@ -1,42 +1,50 @@
 # Web Server Security Assignment
 
-Cyber Security (IT-30001), IIIT Allahabad, Autumn 2026.
+Cyber Security (IT-30001) · IIIT Allahabad · Autumn 2026
 
-This group repository currently contains **Rushal Verma's SQL injection / authentication bypass module**. The remaining members' modules and final group video still need to be added. It does not represent a completed five-member submission.
+Each member's project lives in a folder named after their roll number. The project guide covers setup, the assigned vulnerability, the mitigation, and the demonstration evidence.
 
-## Run Rushal's module
+## Group ownership
 
-Requires Python 3.10 or newer.
-
-```powershell
-cd sql-auth-bypass
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe app.py
-```
-
-Open **http://127.0.0.1:5000**. No database server is needed; SQLite initializes dummy accounts automatically. On macOS/Linux use `.venv/bin/python` instead of `.\.venv\Scripts\python.exe`.
-
-## Ownership declaration
-
-| Member name | Roll number | Category | Variant | Module |
+| Member | Roll number | Vulnerability | Variant | Project guide |
 | --- | --- | --- | --- | --- |
-| Rushal Verma | IIT2024045 | SQL injection | Authentication bypass | [sql-auth-bypass](sql-auth-bypass/) |
+| Rushal Verma | IIT2024045 | SQL injection | Authentication bypass | [SQL authentication lab](IIT2024045/README.md) |
 
-This records the assigned owner. Rushal must review, understand, and be able to explain the implementation before submitting. AI assistance was used to prepare the initial implementation, tests, and study materials; follow the course's rules for permitted assistance and disclosure. Add the other four members' names, roll numbers, categories, and variants when known. Do not assign someone work they have not done.
+Four ownership entries and their projects are pending. Add each row when the member's name, roll number, and variant are confirmed. The assignment covers SQL injection, OS command injection, XSS, and CSRF. Members sharing a category demonstrate distinct variants.
 
-For five members, the detailed assignment instructions require covering all four categories with distinct variants; two members can share a category only if their variants differ. The assignment header also says a maximum of four members, so confirm acceptance of the five-person group with the instructor.
+## Run a project
 
-## Included materials
+Clone the repository and open the guide for the project you want to run.
 
-- [SQL module and exact reproduction steps](sql-auth-bypass/README.md)
-- [2-3 minute narration script](docs/DEMO_SCRIPT.md)
-- [Viva questions and mitigation theory](docs/VIVA_NOTES.md)
-- [Submission checklist](docs/SUBMISSION_CHECKLIST.md)
-- [Evidence and recording instructions](evidence/README.md)
-- [Verification record](docs/VALIDATION.md)
+~~~text
+git clone https://github.com/Rushalverma/iiita-web-security-assignment-2026.git
+cd iiita-web-security-assignment-2026
+~~~
 
-## Scope
+Rushal's project uses Flask and SQLite with fictional accounts. Its guide includes Windows and macOS/Linux commands. [Run the SQL lab](IIT2024045/README.md#run-locally)
 
-This is an intentionally vulnerable, local educational application using fictional accounts. Run it only on your own machine for this assignment. The entry point binds to loopback (`127.0.0.1`) with the debugger disabled. The parameterized version fixes the demonstrated SQL injection; it is not a production authentication system. See the module README for its deliberate simplifications.
+## Repository layout
+
+~~~text
+.
+├── IIT2024045/            Rushal's SQL authentication lab
+│   ├── README.md          Setup, mitigation, and walkthrough
+│   ├── app.py             Flask application
+│   ├── static/            Styles
+│   ├── templates/         Login and dashboard pages
+│   ├── tests/             Authentication tests
+│   ├── evidence/          Screenshots and capture instructions
+│   └── docs/              Narration guide, viva notes, and verification record
+├── docs/                  Group checklist and project README template
+├── CONTRIBUTING.md        Steps for adding a member's project
+└── README.md              Group ownership and project index
+~~~
+
+## Group submission
+
+Each member prepares and narrates their portion of the combined group video. The group submits the repository link and final video link through the course page. [Submission checklist](docs/SUBMISSION_CHECKLIST.md)
+
+The contribution guide explains where to put each module and how to document it. [Contribution guide](CONTRIBUTING.md) · [Project README template](docs/PROJECT_README_TEMPLATE.md)
+
+AI assistance was used to prepare the initial SQL lab, tests, and study materials. Each member should review and be able to explain their submission and follow the course's disclosure rules.
 

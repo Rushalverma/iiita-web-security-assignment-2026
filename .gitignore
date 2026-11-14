@@ -4,10 +4,10 @@ __pycache__/
 *.py[cod]
 instance/
 *.sqlite3
-sql-auth-bypass/tests/tmp*/
+**/tests/tmp*/
 .env
 .DS_Store
-evidence/raw/
+**/evidence/raw/
 *.webm
 *.mp4
 

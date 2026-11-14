@@ -4,7 +4,7 @@ Assigned owner: **Rushal Verma - IIT2024045**.
 
 Target duration: **2 minutes 30 seconds to 3 minutes**. Rehearse and explain the concepts in your own words. This is a narration guide, not a recording of your voice. Read the code and complete the walkthrough yourself before recording.
 
-Before recording, start the application, open the browser and `sql-auth-bypass/app.py` in your editor, and make the text readable. Use the exact same username and wrong password for the two attack attempts. A new private browser window is useful, although the versions also keep independent sessions.
+Before recording, start the application and open the source in your editor. Make the text readable and use a fresh browser session for the walkthrough. [Application source](../app.py)
 
 | Time | Screen / action | Suggested narration |
 | --- | --- | --- |

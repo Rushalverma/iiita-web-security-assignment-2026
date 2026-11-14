@@ -11,3 +11,5 @@ The recording has no voice-over or editor walkthrough. Rushal's narrated video, 
 
 Run the tests and the browser capture yourself using the instructions in the module and evidence READMEs.
 
+The GitHub Actions workflow runs six checks for login, valid data, and session behavior from the IIT2024045 folder. [Workflow](../../.github/workflows/tests.yml)
+

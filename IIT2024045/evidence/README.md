@@ -1,4 +1,6 @@
-# Evidence
+# SQL lab evidence
+
+[Back to the project guide](../README.md)
 
 This folder holds screenshots captured from the actual running application. Filenames describe the test state:
 
@@ -21,7 +23,7 @@ This folder holds screenshots captured from the actual running application. File
 
 ![Parameterized login rejects the same username and wrong password](04-same-payload-blocked.png)
 
-To regenerate evidence, first run the Python app. In a separate terminal from the repository root, install the optional browser dependency and capture:
+To regenerate evidence, first run the Python app. Run the optional browser capture commands from the IIT2024045 folder.
 
 ```powershell
 npm install
