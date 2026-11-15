@@ -148,6 +148,18 @@ function App() {
                 <dd>The login denies access until the password is verified.</dd>
               </div>
             </dl>
+            <details className="bypass-simulation">
+              <summary>Show simulated admin access</summary>
+              <div className="simulated-dashboard">
+                <h4>Simulated admin dashboard</h4>
+                <dl>
+                  <div><dt>Account</dt><dd>Demo administrator</dd></div>
+                  <div><dt>Password verification</dt><dd>Missing</dd></div>
+                  <div><dt>Access in this scenario</dt><dd>Granted</dd></div>
+                </dl>
+                <p>This panel uses fixed fictional data and creates no session.</p>
+              </div>
+            </details>
           </aside>
         </div>
       </main>

@@ -82,6 +82,22 @@ code { font-family: "IBM Plex Mono", Consolas, monospace; font-size: 0.95em; }
 .decisions > div { padding: 11px 12px; border: 1px solid #49636a; border-radius: 7px; }
 .decisions dt { margin: 0; color: #f0f6f3; font-size: 13px; font-weight: 650; }
 .decisions dd { margin: 5px 0 0; color: #d1e0df; font-size: 13px; line-height: 1.45; }
+.bypass-simulation { margin-top: 16px; }
+.bypass-simulation summary { color: #bde9cd; font-size: 14px; text-underline-offset: 3px; }
+.bypass-simulation summary:hover { text-decoration: underline; }
+.simulated-dashboard {
+  margin-top: 12px;
+  padding: 15px;
+  background: #10252d;
+  border: 1px solid #49636a;
+  border-radius: 7px;
+}
+.simulated-dashboard h4 { margin: 0; font-size: 15px; }
+.simulated-dashboard dl { display: grid; gap: 8px; margin: 12px 0; }
+.simulated-dashboard dl div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; }
+.simulated-dashboard dt { margin: 0; color: #d1e0df; font-size: 13px; }
+.simulated-dashboard dd { margin: 0; color: #f0f6f3; font-size: 13px; font-weight: 650; }
+.simulated-dashboard p { border-top: 1px solid #49636a; padding-top: 10px; font-size: 12px; }
 .footer { margin-top: 42px; border-top: 1px solid var(--line); padding-block: 18px; color: var(--muted); font-size: 14px; }
 
 @media (max-width: 690px) {

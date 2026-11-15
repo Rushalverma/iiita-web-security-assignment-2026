@@ -48,8 +48,8 @@ Input length and type checks help define valid requests. Least privilege limits 
 
 ## Demonstrate and verify
 
-1. Point to **What a bypass would look like**. This is a hypothetical outcome where an incorrect login decision opens a session without credential proof.
-2. Begin signed out. Sign in as `o'connor` with a wrong password. The app displays **Invalid username or password**. Opening `/api/account` while signed out returns HTTP 401.
+1. Begin signed out and select **Show simulated admin access** under **What a bypass would look like**. It displays a hypothetical administrator dashboard with access granted and password verification missing. The actual account endpoint stays protected.
+2. Close the simulation. Sign in as `o'connor` with a wrong password. The app displays **Invalid username or password**. Opening `/api/account` while signed out returns HTTP 401.
 3. Point to the prepared statement and the bound username in `server/database.js`.
 4. Use the same username with its correct demo password. The student dashboard opens. Refresh to check that the session still works, then sign out.
 
