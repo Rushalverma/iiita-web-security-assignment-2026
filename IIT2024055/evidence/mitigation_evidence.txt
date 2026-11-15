@@ -1,10 +1,10 @@
 =================================================================
 EVIDENCE OF MITIGATION: OS COMMAND INJECTION DEFENSE
 =================================================================
-Endpoint:           http://127.0.0.1:5000/api/ping/mitigated
-Timestamp:          2026-11-03 21:11:29
+Endpoint:           http://127.0.0.1:5001/api/ping/mitigated
+Timestamp:          2026-11-15 17:27:34
 HTTP Status:        400
-Payload Attempted:  127.0.0.1 & whoami
+Payload Attempted:  127.0.0.1 ; whoami
 Result Status:      blocked
 Defense Message:    Mitigation blocked input: Target does not match strict IP/hostname allow-list. Shell metacharacters are rejected.
 

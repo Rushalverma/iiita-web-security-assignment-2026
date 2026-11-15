@@ -26,7 +26,7 @@ python -m venv .venv
 .\.venv\Scripts\python.exe app.py
 ```
 
-Open http://127.0.0.1:5000. Stop the server with Ctrl+C.
+Open http://127.0.0.1:5001. Stop the server with Ctrl+C.
 
 ## Source and supporting materials
 
@@ -94,7 +94,7 @@ Normal pings (e.g. `127.0.0.1`, `google.com`) still work correctly on the mitiga
 
 ## Demonstration and evidence
 
-The web interface at http://127.0.0.1:5000 provides:
+The web interface at http://127.0.0.1:5001 provides:
 
 - A **Vulnerable Mode** (red) and **Mitigated Mode** (green) toggle
 - Quick test payload buttons for one-click exploit demonstration

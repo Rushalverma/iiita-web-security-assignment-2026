@@ -205,8 +205,8 @@ def ping_mitigated():
 if __name__ == "__main__":
     # Host on 127.0.0.1 for secure local testing
     print("[*] Starting Web Server Security Lab - OS Command Injection (Variant 1)")
-    print("[*] Vulnerable endpoint: http://127.0.0.1:5000/api/ping/vulnerable")
-    print("[*] Mitigated endpoint:  http://127.0.0.1:5000/api/ping/mitigated")
-    print("[*] Dashboard:           http://127.0.0.1:5000/")
-    app.run(host="127.0.0.1", port=5000, debug=False)
+    print("[*] Vulnerable endpoint: http://127.0.0.1:5001/api/ping/vulnerable")
+    print("[*] Mitigated endpoint:  http://127.0.0.1:5001/api/ping/mitigated")
+    print("[*] Dashboard:           http://127.0.0.1:5001/")
+    app.run(host="127.0.0.1", port=5001, debug=False)
 

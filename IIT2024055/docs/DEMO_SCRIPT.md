@@ -11,7 +11,7 @@
 ## Preparation Checklist Before You Hit Record:
 1. **Screen Layout:**
    - Have **VS Code** open on one side (or ready to switch) with `app.py` opened.
-   - Have your **Web Browser** open to `http://127.0.0.1:5000/`.
+   - Have your **Web Browser** open to `http://127.0.0.1:5001/`.
    - Make sure your Flask server is running in a terminal (`python app.py`).
 2. **Audio Check:** Ensure your microphone is clear and background noise is minimal.
 
@@ -21,7 +21,7 @@
 
 ### [0:00 – 0:20] Scene 1: Introduction & Ownership (Table 3)
 * **WHERE TO LOOK / WHAT TO SHOW ON SCREEN:**
-  - Browser showing the running web application header (`http://127.0.0.1:5000/`).
+  - Browser showing the running web application header (`http://127.0.0.1:5001/`).
 * **WHAT TO DO:**
   - Hover mouse over the title: **"OS Command Injection: Variant 1 (In-Band)"**.
 * **VOICE-OVER / WHAT TO SAY:**
@@ -57,7 +57,7 @@
 
 ### [1:10 – 1:50] Scene 4: Working Exploit with Evidence (Item b)
 * **WHERE TO LOOK / WHAT TO SHOW ON SCREEN:**
-  - Switch to your **Web Browser** on `http://127.0.0.1:5000/`.
+  - Switch to your **Web Browser** on `http://127.0.0.1:5001/`.
   - Ensure the **"Vulnerable Mode"** red button is active.
 * **WHAT TO DO:**
   1. Click on the Quick Preset button: `127.0.0.1 & whoami` (or type it into the input box).

@@ -4,25 +4,24 @@
 
 **Variant:** Variant 1: In-Band (Command output returned)
 
-**Date Generated:** 2026-11-03 21:11:29
+**Date Generated:** 2026-11-15 17:27:34
+
 ---
 
 ## 1. Vulnerable Implementation & Exploitation (Item a & b)
 
 - **Vulnerable Endpoint:** `/api/ping/vulnerable`
-- **Injected Payload:** `127.0.0.1 & whoami`
-- **Command Executed on Host:** `ping -n 1 127.0.0.1 & whoami`
+- **Injected Payload:** `127.0.0.1 ; whoami`
+- **Command Executed on Host:** `ping -c 1 127.0.0.1 ; whoami`
 
 ### In-Band Output Received by Client:
 ```text
+PING 127.0.0.1 (127.0.0.1): 56 data bytes
+64 bytes from 127.0.0.1: icmp_seq=0 ttl=64 time=0.076 ms
 
-Pinging 127.0.0.1 with 32 bytes of data:
-Reply from 127.0.0.1: bytes=32 time<1ms TTL=128
-
-Ping statistics for 127.0.0.1:
-    Packets: Sent = 1, Received = 1, Lost = 0 (0% loss),
-Approximate round trip times in milli-seconds:
-    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+--- 127.0.0.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 0.076/0.076/0.076/0.000 ms
 anshkumar
 
 ```
@@ -38,7 +37,7 @@ anshkumar
 ## 3. Mitigation Implemented (Item d)
 
 - **Mitigated Endpoint:** `/api/ping/mitigated`
-- **Same Payload Attempted:** `127.0.0.1 & whoami`
+- **Same Payload Attempted:** `127.0.0.1 ; whoami`
 - **Result Status:** `blocked` (HTTP 400 Bad Request)
 - **Blocking Reason:** `Mitigation blocked input: Target does not match strict IP/hostname allow-list. Shell metacharacters are rejected.`
 
