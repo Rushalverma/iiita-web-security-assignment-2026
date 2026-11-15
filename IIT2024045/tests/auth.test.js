@@ -49,6 +49,29 @@ test("correct credentials create a session with a protected account", async () =
   assert.deepEqual(await session.json(), { user: { username: "admin", role: "administrator" } });
 });
 
+test("vulnerable mode demonstrates authentication bypass with a comment payload", async () => {
+  const response = await post("/api/login", {
+    username: "admin' --",
+    password: "anything",
+    mode: "vulnerable",
+  });
+  assert.equal(response.status, 200);
+  const data = await response.json();
+  assert.equal(data.authenticatedBypass, true);
+  assert.equal(data.user.role, "administrator");
+  assert.match(data.sql, /admin' --/);
+});
+
+test("secure mode treats the bypass payload as data", async () => {
+  const response = await post("/api/login", {
+    username: "admin' --",
+    password: "anything",
+    mode: "secure",
+  });
+  assert.equal(response.status, 401);
+  assert.equal(response.headers.get("set-cookie"), null);
+});
+
 test("wrong passwords and unknown accounts produce the same failure", async () => {
   for (const username of ["admin", "guest's-account"]) {
     const response = await post("/api/login", { username, password: "wrong-password" });

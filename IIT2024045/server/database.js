@@ -23,17 +23,18 @@ export function createUserStore() {
     CREATE TABLE users (
       username TEXT PRIMARY KEY NOT NULL,
       role TEXT NOT NULL,
+      password TEXT NOT NULL,
       salt BLOB NOT NULL,
       password_hash BLOB NOT NULL
     )
   `);
 
   const insert = db.prepare(
-    "INSERT INTO users (username, role, salt, password_hash) VALUES (?, ?, ?, ?)",
+    "INSERT INTO users (username, role, password, salt, password_hash) VALUES (?, ?, ?, ?, ?)",
   );
   for (const { username, password, role } of demoUsers) {
     const { salt, passwordHash } = hashDemoPassword(password);
-    insert.run(username, role, salt, passwordHash);
+    insert.run(username, role, password, salt, passwordHash);
   }
 
   const findUser = db.prepare(
@@ -41,13 +42,25 @@ export function createUserStore() {
   );
   const dummy = hashDemoPassword(randomBytes(24));
 
-  async function authenticate(username, password) {
+  async function authenticate(username, password, mode = "secure") {
+    if (mode === "vulnerable") {
+      const sql = `SELECT username, role FROM users WHERE username = '${username}' AND password = '${password}'`;
+      const user = db.prepare(sql).get();
+      return user
+        ? { user: { username: user.username, role: user.role }, sql, bypassed: password !== demoUsers.find((entry) => entry.username === user.username)?.password }
+        : { user: null, sql, bypassed: false };
+    }
+
     // The statement is already prepared. The username fills a data parameter.
     const user = findUser.get(username);
     const computed = await deriveKey(password, user?.salt ?? dummy.salt, keyLength);
     const matches = timingSafeEqual(computed, user?.password_hash ?? dummy.passwordHash);
 
-    return user && matches ? { username: user.username, role: user.role } : null;
+    return {
+      user: user && matches ? { username: user.username, role: user.role } : null,
+      sql: "SELECT username, role, salt, password_hash FROM users WHERE username = ?",
+      bypassed: false,
+    };
   }
 
   return { authenticate, close: () => db.close() };

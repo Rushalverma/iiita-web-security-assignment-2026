@@ -4,7 +4,9 @@
 | --- | --- | --- | --- |
 | Rushal Verma | IIT2024045 | SQL injection | Authentication bypass |
 
-This local lab illustrates what an authentication bypass would look like and runs a login that demonstrates the mitigation. React sends the form to Express. SQLite looks up the account using a prepared statement, and Node.js checks the password hash before Express creates a session.
+This local lab demonstrates a SQL-injection authentication bypass and its mitigation. Use **Vulnerable mode** with `admin' --` and any password to see the database return the administrator row without checking the password. Switch to **Secure mode** and submit the same payload; parameter binding treats it as data and rejects it.
+
+> **Authorised local testing only:** Vulnerable mode is deliberately insecure for this classroom demonstration. Run it only on localhost and never deploy it publicly.
 
 ## Run locally
 
@@ -42,18 +44,18 @@ Use the fictional credentials above. The passwords are public demo values, and t
 
 SQL injection can lead to authentication bypass when a login builds its SQL from untrusted input and accepts the database result as proof of identity. If input changes the meaning of the query, the application can make the wrong authentication decision.
 
-This app prepares a fixed statement containing `WHERE username = ?`. The value in `findUser.get(username)` fills the placeholder through SQLite's API. A quote in a name such as `o'connor` stays part of the name. Express issues an authenticated session only after the password check succeeds. [OWASP SQL Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html#parameterized-queries)
+Vulnerable mode concatenates input into `WHERE username = '...' AND password = '...'`, allowing `admin' --` to comment out the password check. Secure mode prepares a fixed statement containing `WHERE username = ?`; the value in `findUser.get(username)` fills the placeholder through SQLite's API. Express issues an authenticated session only after the password check succeeds. [OWASP SQL Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html#parameterized-queries)
 
 Input length and type checks help define valid requests. Least privilege limits what the application can access, and generic errors limit what it reveals. These are additional controls. Parameter binding protects the structure of this query.
 
 ## Demonstrate and verify
 
-1. Begin signed out and select **Show simulated admin access** under **What a bypass would look like**. It displays a hypothetical administrator dashboard with access granted and password verification missing. The actual account endpoint stays protected.
-2. Close the simulation. Sign in as `o'connor` with a wrong password. The app displays **Invalid username or password**. Opening `/api/account` while signed out returns HTTP 401.
-3. Point to the prepared statement and the bound username in `server/database.js`.
-4. Use the same username with its correct demo password. The student dashboard opens. Refresh to check that the session still works, then sign out.
+1. Select **Vulnerable mode**, enter `admin' --` as the username and any password. The page shows the executed SQL, an **AUTHENTICATION BYPASSED** banner, and the administrator dashboard.
+2. Sign out, switch to **Secure mode**, and submit the same payload. The login fails because the payload is bound as a literal username.
+3. Point to the vulnerable string-concatenated query and the secure prepared statement in `server/database.js`.
+4. Sign in with a correct demo account to show that ordinary secure authentication still works, then sign out.
 
-The failed login and valid login verify credential and session checks. The apostrophe belongs to a legitimate demo username. Evidence of a working exploit remains an open assignment item.
+The vulnerable sequence demonstrates the bypass, and the secure sequence demonstrates the mitigation.
 
 Run `npm test` to verify the Express API and the session lifecycle. The app is scoped to the local classroom demonstration and uses an in-memory session store.
 

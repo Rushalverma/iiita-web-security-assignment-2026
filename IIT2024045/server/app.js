@@ -45,30 +45,41 @@ export function createApp(users) {
     if (!request.is("application/json")) {
       return response.status(415).json({ error: "Send requests as JSON." });
     }
-    const { username, password } = request.body ?? {};
+    const { username, password, mode = "secure" } = request.body ?? {};
     if (
       typeof username !== "string" || !username.trim() || username.length > 80 ||
       typeof password !== "string" || !password || password.length > 128
     ) {
       return response.status(400).json({ error: "Enter a valid username and password." });
     }
+    if (mode !== "secure" && mode !== "vulnerable") {
+      return response.status(400).json({ error: "Choose a valid login mode." });
+    }
 
-    const user = await users.authenticate(username, password);
-    if (!user) {
-      return response.status(401).json({ error: "Invalid username or password." });
+    const result = await users.authenticate(username, password, mode);
+    if (!result.user) {
+      return response.status(401).json({
+        error: "Invalid username or password.",
+        ...(mode === "vulnerable" ? { sql: result.sql } : {}),
+      });
     }
 
     request.session.regenerate((error) => {
       if (error) return next(error);
-      request.session.user = user;
-      return response.json({ user });
+      request.session.user = result.user;
+      request.session.authenticatedBypass = result.bypassed;
+      return response.json(mode === "vulnerable"
+        ? { user: result.user, mode, sql: result.sql, authenticatedBypass: result.bypassed }
+        : { user: result.user });
     });
   });
 
   api.get("/account", (request, response) => {
     const user = request.session.user;
     if (!user) return response.status(401).json({ error: "Sign in to view the account." });
-    return response.json({ user });
+    return response.json(request.session.authenticatedBypass === true
+      ? { user, authenticatedBypass: true }
+      : { user });
   });
 
   api.post("/logout", (request, response, next) => {

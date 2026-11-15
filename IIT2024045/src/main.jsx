@@ -19,13 +19,19 @@ async function requestApi(path, data) {
 
 function App() {
   const [user, setUser] = useState(null);
+  const [mode, setMode] = useState("secure");
+  const [bypass, setBypass] = useState(false);
+  const [executedSql, setExecutedSql] = useState("");
   const [busy, setBusy] = useState(true);
   const [notice, setNotice] = useState(null);
 
   useEffect(() => {
     requestApi("/api/account")
       .then(({ status, data }) => {
-        if (status === 200) setUser(data.user);
+        if (status === 200) {
+          setUser(data.user);
+          setBypass(data.authenticatedBypass);
+        }
         else if (status !== 401) setNotice({ text: data.error, error: true });
       })
       .catch(() => setNotice({ text: "Could not check your session.", error: true }))
@@ -40,9 +46,12 @@ function App() {
     setNotice(null);
 
     try {
-      const { status, data } = await requestApi("/api/login", credentials);
-      if (status === 200) setUser(data.user);
-      else setNotice({ text: data.error, error: true });
+      const { status, data } = await requestApi("/api/login", { ...credentials, mode });
+      setExecutedSql(data.sql || "");
+      if (status === 200) {
+        setUser(data.user);
+        setBypass(data.authenticatedBypass);
+      } else setNotice({ text: data.error, error: true });
     } catch {
       setNotice({ text: "Could not reach the login service. Try again.", error: true });
     } finally {
@@ -58,6 +67,8 @@ function App() {
       const { status, data } = await requestApi("/api/logout", {});
       if (status === 204) {
         setUser(null);
+        setBypass(false);
+        setExecutedSql("");
         setNotice({ text: "Signed out." });
       } else {
         setNotice({ text: data.error, error: true });
@@ -80,16 +91,26 @@ function App() {
 
       <main className="shell">
         <section className="intro" aria-labelledby="page-title">
-          <h1 id="page-title">Preventing SQL injection<br />in login</h1>
+          <h1 id="page-title">Authentication bypass<br />with SQL injection</h1>
           <p>
-            Understand authentication bypass and try a login that keeps user
-            input separate from SQL code.
+          Run the same login payload against a deliberately vulnerable query,
+          then switch to the parameterized fix.
           </p>
         </section>
 
         <div className="workspace">
           <section className="card" aria-labelledby="auth-heading">
-            <h2 id="auth-heading">{user ? "Account dashboard" : "Parameterized login"}</h2>
+            <h2 id="auth-heading">{user ? "Account dashboard" : `${mode === "vulnerable" ? "Vulnerable" : "Secure"} login`}</h2>
+            {!user && (
+              <div className="mode-toggle" role="group" aria-label="Login mode">
+                <button type="button" className={mode === "vulnerable" ? "selected" : "secondary"} onClick={() => setMode("vulnerable")}>
+                  Vulnerable mode
+                </button>
+                <button type="button" className={mode === "secure" ? "selected" : "secondary"} onClick={() => setMode("secure")}>
+                  Secure mode
+                </button>
+              </div>
+            )}
             {notice && (
               <p role="status" className={notice.error ? "notice error" : "notice"}>
                 {notice.text}
@@ -97,8 +118,10 @@ function App() {
             )}
             {user ? (
               <div>
+                {bypass && <p className="bypass-banner">AUTHENTICATION BYPASSED</p>}
                 <p>Signed in as <strong>{user.username}</strong>.</p>
                 <p className="role">Account role <strong>{user.role}</strong></p>
+                {executedSql && <pre className="executed-sql"><code>{executedSql}</code></pre>}
                 <button type="button" onClick={signOut} disabled={busy}>Sign out</button>
               </div>
             ) : (
@@ -110,6 +133,12 @@ function App() {
                   <input id="password" name="password" type="password" autoComplete="current-password" maxLength={128} required />
                   <button type="submit" disabled={busy}>{busy ? "Checking…" : "Sign in"}</button>
                 </form>
+                {mode === "vulnerable" && (
+                  <div className="payload">
+                    <strong>Try the bypass payload</strong>
+                    <p>Username: <code>admin' --</code><br />Password: <code>anything</code></p>
+                  </div>
+                )}
                 <details className="examples">
                   <summary>Demo accounts</summary>
                   <dl>
@@ -126,17 +155,20 @@ function App() {
           </section>
 
           <aside className="card explanation" aria-labelledby="query-heading">
-            <h2 id="query-heading">How the query stays fixed</h2>
-            <pre><code>WHERE username = ?</code></pre>
+            <h2 id="query-heading">Why the bypass works</h2>
+            <pre><code>{mode === "vulnerable"
+              ? "WHERE username = '" + "admin' --" + "' AND password = 'anything'"
+              : "WHERE username = ?"}</code></pre>
             <ol>
-              <li>SQLite prepares the query with a placeholder.</li>
-              <li>The username is supplied as a separate value.</li>
-              <li>Express opens a session after checking the password hash.</li>
+              <li>Vulnerable mode concatenates input into SQL text.</li>
+              <li><code>--</code> comments out the password condition.</li>
+              <li>Secure mode binds the same payload as data.</li>
             </ol>
-            <h3>What a bypass would look like</h3>
+            <h3>{mode === "vulnerable" ? "VULNERABLE: password check removed" : "SECURE: parameterized query"}</h3>
             <p>
-              Imagine SQL injection causes the login query to return the
-              administrator’s account without proving the password.
+              {mode === "vulnerable"
+                ? "The database returns the administrator row before a password is checked."
+                : "The payload is treated as a literal username and cannot change the query."}
             </p>
             <dl className="decisions">
               <div>
@@ -148,18 +180,7 @@ function App() {
                 <dd>The login denies access until the password is verified.</dd>
               </div>
             </dl>
-            <details className="bypass-simulation">
-              <summary>Show simulated admin access</summary>
-              <div className="simulated-dashboard">
-                <h4>Simulated admin dashboard</h4>
-                <dl>
-                  <div><dt>Account</dt><dd>Demo administrator</dd></div>
-                  <div><dt>Password verification</dt><dd>Missing</dd></div>
-                  <div><dt>Access in this scenario</dt><dd>Granted</dd></div>
-                </dl>
-                <p>This panel uses fixed fictional data and creates no session.</p>
-              </div>
-            </details>
+            {executedSql && <pre className="executed-sql"><code>{executedSql}</code></pre>}
           </aside>
         </div>
       </main>
