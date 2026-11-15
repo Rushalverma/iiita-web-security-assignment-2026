@@ -10,11 +10,11 @@ Each member's project is in a folder named after their roll number. Project guid
 | --- | --- | --- | --- | --- |
 | Rushal Verma | IIT2024045 | SQL injection | Authentication bypass | [Project and evidence](IIT2024045/README.md) |
 | Herit Desai | IIT2024054 | Cross-site scripting (XSS) | Reflected XSS | [Mitigation demo and evidence](IIT2024054/README.md) |
-| Ansh Kumar Ramkesh | IIT2024055 | Pending | Pending | [Ownership listed. Project pending.](IIT2024055/README.md) |
+| Ansh Kumar Ramkesh | IIT2024055 | OS command injection | In-band (command output returned) | [Project and evidence](IIT2024055/README.md) |
 | Surbhi Kumari Sah | IIT2024063 | Cross-site scripting (XSS) | Stored XSS | [Project and evidence](IIT2024063/README.md) |
 | Bhavya Panara | IIT2024097 | Cross-site request forgery (CSRF) | GET-based forged action | [Project and evidence](IIT2024097/README.md) |
 
-OS command injection is the remaining unrepresented category.
+All four vulnerability categories are now represented.
 
 ## Run a project
 
