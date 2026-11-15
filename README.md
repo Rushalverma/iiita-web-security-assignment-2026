@@ -4,7 +4,7 @@
 
 This repository contains individual projects developed for the Web Server Security assignment. Each member's implementation is maintained in a separate folder named after their roll number.
 
-Each project guide covers setup, the assigned vulnerability, its mitigation, and the available demonstration evidence.
+Each project guide covers setup,  the assigned vulnerability, its mitigation, and the available demonstration evidence.
 
 ## Group ownership
 
