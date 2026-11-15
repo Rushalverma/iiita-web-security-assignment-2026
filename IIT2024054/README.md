@@ -57,8 +57,8 @@ The React result uses the query string as JSX text. React creates a text node, w
 
 [OWASP Cross Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html) · [React DOM common components](https://react.dev/reference/react-dom/components/common)
 
-## Verification and viva
+## Verification
 
 Run `npm test` from this folder to check the API response, text round trip, empty input, and input limits. The browser demonstration checks that the result contains text with zero element children and that clearing the search removes the result. GitHub Actions builds the frontend and runs the API checks for changes to this module. [Verification workflow](../.github/workflows/reflected-xss.yml)
 
-[Viva notes](docs/VIVA_NOTES.md) · [Group checklist](../docs/SUBMISSION_CHECKLIST.md)
+[Group checklist](../docs/SUBMISSION_CHECKLIST.md)

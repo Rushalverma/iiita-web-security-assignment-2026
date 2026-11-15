@@ -59,5 +59,5 @@ The vulnerable sequence demonstrates the bypass, and the secure sequence demonst
 
 Run `npm test` to verify the Express API and the session lifecycle. The app is scoped to the local classroom demonstration and uses an in-memory session store.
 
-[Viva notes](docs/VIVA_NOTES.md) · [Browser evidence](evidence/README.md) · [Verification](docs/VALIDATION.md)
+[Browser evidence](evidence/README.md) · [Verification](docs/VALIDATION.md)
 
