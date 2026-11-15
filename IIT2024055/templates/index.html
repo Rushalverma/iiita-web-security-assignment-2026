@@ -3,132 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OS Command Injection Lab | In-Band Diagnostic Console</title>
+    <title>OS Command Injection Lab | Variant 1: In-Band</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="ambient-glow glow-top-left"></div>
-    <div class="ambient-glow glow-bottom-right"></div>
-    <div class="cyber-grid-overlay"></div>
-
     <div class="app-container">
-        <!-- Top App Bar / Header -->
+        <!-- Header -->
         <header class="app-header">
-            <div class="header-left">
-                <div class="cyber-logo">
-                    <span class="logo-shield">🛡️</span>
-                    <div class="logo-text">
-                        <span class="logo-title">SECURE OPS // CONSOLE</span>
-                        <span class="logo-sub">Web Server Security Suite</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="header-right">
+            <div class="header-content">
                 <div class="badge-row">
-                    <span class="badge lab-badge">
-                        <span class="dot-indicator"></span>
-                        Lab: OS Command Injection
-                    </span>
-                    <span class="badge variant-badge">
-                        Variant 1: In-Band Output
-                    </span>
-                    <span class="badge os-badge">
-                        Host OS: {{ os_name }}
-                    </span>
+                    <span class="badge academic-badge">Web Server Security Lab</span>
+                    <span class="badge lab-badge">Web Server Security Lab</span>
+                    <span class="badge os-badge">Host OS: {{ os_name }}</span>
                 </div>
+                <h1>OS Command Injection: Variant 1 (In-Band)</h1>
+                <p class="subtitle">Demonstration of Vulnerability Exploitation, Root Cause, and Defense Implementation</p>
             </div>
         </header>
 
-        <!-- Main Banner Title -->
-        <div class="hero-banner">
-            <div class="hero-text-col">
-                <div class="hero-tag">Vulnerability Assessment &amp; Defense Lab</div>
-                <h1>OS Command Injection: In-Band Exploitation &amp; Defense</h1>
-                <p class="subtitle">Interactive demonstration comparing unvalidated shell concatenation with defense-in-depth parameterization and strict allow-list filtering.</p>
-            </div>
-        </div>
-
         <!-- Main Content Grid -->
         <main class="main-grid">
-            <!-- Left Column: Interactive Testing Workbench -->
-            <section class="cyber-panel test-panel">
-                <div class="panel-header">
-                    <div class="panel-title-wrapper">
-                        <span class="panel-icon">⚡</span>
-                        <div>
-                            <h2>Diagnostic Ping Utility</h2>
-                            <span class="panel-caption">Live target probe with in-band stream capture</span>
-                        </div>
-                    </div>
-                    <div class="panel-status-pill">
-                        <span class="pulse-indicator"></span>
-                        <span class="status-pill-text">LISTENING</span>
-                    </div>
+            <!-- Left Column: Interactive Testing -->
+            <section class="card test-card">
+                <div class="card-header">
+                    <h2>Network Diagnostic Console (Ping Utility)</h2>
+                    <span class="pulse-indicator"></span>
                 </div>
 
-                <!-- Mode Selection Segmented Controller -->
+                <!-- Mode Selection -->
                 <div class="mode-selector-container">
-                    <div class="mode-header-row">
-                        <label class="mode-label">Target Execution Pipeline:</label>
-                        <span class="mode-help">Toggle between vulnerable &amp; secured endpoints</span>
-                    </div>
+                    <label class="mode-label">Security Mode:</label>
                     <div class="mode-toggle">
                         <button type="button" class="mode-btn active vulnerable" id="btn-mode-vulnerable" onclick="setMode('vulnerable')">
-                            <span class="mode-radio-dot"></span>
-                            <div class="mode-btn-content">
-                                <span class="mode-btn-title">Vulnerable Mode</span>
-                                <span class="mode-btn-desc">shell=True · Concatenation</span>
-                            </div>
-                            <span class="threat-tag breach">VULNERABLE</span>
+                            <span class="status-dot red"></span>
+                            Vulnerable Mode
                         </button>
                         <button type="button" class="mode-btn mitigated" id="btn-mode-mitigated" onclick="setMode('mitigated')">
-                            <span class="mode-radio-dot"></span>
-                            <div class="mode-btn-content">
-                                <span class="mode-btn-title">Mitigated Mode</span>
-                                <span class="mode-btn-desc">shell=False · Vector + Allow-list</span>
-                            </div>
-                            <span class="threat-tag secure">HARDENED</span>
+                            <span class="status-dot green"></span>
+                            Mitigated Mode
                         </button>
                     </div>
                 </div>
 
                 <!-- Mode description alert -->
                 <div id="mode-alert" class="mode-alert vulnerable-alert">
-                    <div class="alert-icon">⚠️</div>
-                    <div class="alert-body">
-                        <strong>Active Target: /api/ping/vulnerable</strong>
-                        <p>User input is interpolated directly into the system command string executed with <code>shell=True</code>. Metacharacters (<code>&amp;</code>, <code>&amp;&amp;</code>, <code>;</code>, <code>|</code>) are evaluated by the host shell and secondary command output returns in-band.</p>
-                    </div>
+                    <strong>Mode: Vulnerable Endpoint (/api/ping/vulnerable)</strong>
+                    <p>Concatenates raw user input into shell command string with <code>shell=True</code>. Metacharacters are interpreted and output is returned in-band.</p>
                 </div>
 
                 <!-- Input Form -->
                 <form id="ping-form" onsubmit="executePing(event)">
                     <div class="form-group">
-                        <div class="form-label-row">
-                            <label for="target-input">Target Host or Command Sequence:</label>
-                            <span class="input-hint">Hostname / IPv4 / Payload</span>
-                        </div>
+                        <label for="target-input">Target Host / IP Address:</label>
                         <div class="input-wrapper">
-                            <div class="input-icon-prefix">
-                                <span class="prompt-symbol">$</span>
-                                <span class="cmd-preview">ping -1</span>
-                            </div>
                             <input 
                                 type="text" 
                                 id="target-input" 
                                 name="target" 
-                                placeholder="e.g. 127.0.0.1 or 127.0.0.1 & whoami"
+                                placeholder="e.g., 127.0.0.1 or 127.0.0.1 & whoami"
                                 autocomplete="off"
-                                spellcheck="false"
                                 required
                             >
                             <button type="submit" id="submit-btn" class="btn-primary">
-                                <span class="btn-text">Transmit Probe</span>
-                                <span class="btn-icon">↵</span>
+                                <span class="btn-text">Execute Ping</span>
                                 <span class="spinner hidden" id="spinner"></span>
                             </button>
                         </div>
@@ -137,26 +77,19 @@
 
                 <!-- Quick Presets -->
                 <div class="presets-section">
-                    <div class="presets-header">
-                        <span class="presets-title">Quick Attack &amp; Audit Payloads</span>
-                        <span class="presets-hint">Click any payload chip to load into target field</span>
-                    </div>
+                    <span class="presets-title">Quick Test Payloads:</span>
                     <div class="preset-buttons">
-                        <button type="button" class="preset-chip benign" onclick="applyPreset('127.0.0.1')">
-                            <span class="chip-badge ok">SAFE</span>
-                            <code>127.0.0.1</code>
+                        <button class="preset-btn benign" onclick="applyPreset('127.0.0.1')">
+                            ✓ Benign: <code>127.0.0.1</code>
                         </button>
-                        <button type="button" class="preset-chip exploit" onclick="applyPreset('127.0.0.1 & whoami')">
-                            <span class="chip-badge exp">INJECT</span>
-                            <code>127.0.0.1 &amp; whoami</code>
+                        <button class="preset-btn exploit" onclick="applyPreset('127.0.0.1 & whoami')">
+                            ⚠ Exploit: <code>127.0.0.1 & whoami</code>
                         </button>
-                        <button type="button" class="preset-chip exploit" onclick="applyPreset('127.0.0.1 && whoami')">
-                            <span class="chip-badge exp">CHAIN</span>
-                            <code>127.0.0.1 &amp;&amp; whoami</code>
+                        <button class="preset-btn exploit" onclick="applyPreset('127.0.0.1 && whoami')">
+                            ⚠ Exploit: <code>127.0.0.1 && whoami</code>
                         </button>
-                        <button type="button" class="preset-chip exploit" onclick="applyPreset('127.0.0.1 & echo ===PWNED===')">
-                            <span class="chip-badge exp">FLAG</span>
-                            <code>&amp; echo ===PWNED===</code>
+                        <button class="preset-btn exploit" onclick="applyPreset('127.0.0.1 & echo ===PWNED===')">
+                            ⚠ Exploit: <code>& echo ===PWNED===</code>
                         </button>
                     </div>
                 </div>
@@ -169,162 +102,92 @@
                             <span class="dot dot-yellow"></span>
                             <span class="dot dot-green"></span>
                         </div>
-                        <div class="terminal-title-box">
-                            <span class="terminal-icon">📟</span>
-                            <span class="terminal-title" id="terminal-status-title">In-Band Response Stream (stdout / stderr)</span>
-                        </div>
-                        <div class="terminal-meta">
-                            <span class="meta-label">LATENCY:</span>
-                            <span class="terminal-timing" id="terminal-timing">0 ms</span>
-                        </div>
+                        <span class="terminal-title" id="terminal-status-title">In-Band Response Console (stdout / stderr)</span>
+                        <span class="terminal-timing" id="terminal-timing">0 ms</span>
                     </div>
                     <div class="terminal-body" id="terminal-body">
-                        <pre id="terminal-content" class="terminal-text"><span class="term-dim">[*] Terminal ready. Select an execution mode, specify your target or pick a test payload, then click 'Transmit Probe'.</span></pre>
+                        <pre id="terminal-content" class="terminal-text">System ready. Select a mode, enter target or choose a payload above, then click Execute Ping.</pre>
                     </div>
                 </div>
             </section>
 
             <!-- Right Column: Code Path & Technical Details -->
-            <section class="cyber-panel details-panel">
+            <section class="card details-card">
                 <div class="card-tabs">
-                    <button type="button" class="tab-btn active" onclick="switchTab('code')">
-                        <span class="tab-icon">⚙️</span>
-                        <span>Code Paths</span>
-                    </button>
-                    <button type="button" class="tab-btn" onclick="switchTab('analysis')">
-                        <span class="tab-icon">🔍</span>
-                        <span>Vulnerability Analysis</span>
-                    </button>
-                    <button type="button" class="tab-btn" onclick="switchTab('mitigations')">
-                        <span class="tab-icon">🛡️</span>
-                        <span>Mitigation Theory</span>
-                    </button>
+                    <button class="tab-btn active" onclick="switchTab('code')">Code Paths</button>
+                    <button class="tab-btn" onclick="switchTab('analysis')">Vulnerability Analysis</button>
+                    <button class="tab-btn" onclick="switchTab('mitigations')">Mitigation Theory (Item e)</button>
                 </div>
 
                 <!-- Tab 1: Code Paths -->
                 <div id="tab-code" class="tab-content active">
-                    <div class="code-card">
-                        <div class="code-block-header red-header">
-                            <div class="code-header-left">
-                                <span class="code-badge-crit">VULNERABLE SINK</span>
-                                <span class="code-title">/api/ping/vulnerable (app.py)</span>
-                            </div>
-                            <span class="code-tech-tag">shell=True</span>
-                        </div>
-                        <pre class="code-display"><code><span class="c-comment"># Flaw: Raw string concatenation invoked through system shell</span>
-raw_command = f<span class="c-str">"ping {PING_COUNT_FLAG} 1 {target}"</span>
-
+                    <div class="code-block-header red-header">
+                        <span class="code-title">Vulnerable Implementation (app.py: /api/ping/vulnerable)</span>
+                    </div>
+                    <pre class="code-display"><code># Flaw: Concatenating unvalidated input into shell string with shell=True
+raw_command = f"ping {count_flag} 1 {target}"
 output = subprocess.check_output(
     raw_command,
-    <span class="c-warn">shell=True</span>,  <span class="c-comment"># Delegates parsing to cmd.exe / /bin/sh</span>
+    shell=True,  # Invokes cmd.exe / /bin/sh
     stderr=subprocess.STDOUT,
-    text=True,
-    timeout=10
+    text=True
 )</code></pre>
-                    </div>
 
-                    <div class="code-card mt-4">
-                        <div class="code-block-header green-header">
-                            <div class="code-header-left">
-                                <span class="code-badge-good">DEFENSE IMPLEMENTATION</span>
-                                <span class="code-title">/api/ping/mitigated (app.py)</span>
-                            </div>
-                            <span class="code-tech-tag">shell=False</span>
-                        </div>
-                        <pre class="code-display"><code><span class="c-comment"># Layer 1: Strict allow-list validation (IP/RFC Hostname regex)</span>
-<span class="c-kw">if not</span> is_valid_target(target):
-    <span class="c-kw">return</span> jsonify({<span class="c-str">"status"</span>: <span class="c-str">"blocked"</span>, <span class="c-str">"error"</span>: <span class="c-str">"Metacharacters rejected"</span>}), 400
-
-<span class="c-comment"># Layer 2: Parameterized argument vector (OS spawns binary directly)</span>
-command_vector = [<span class="c-str">"ping"</span>, PING_COUNT_FLAG, <span class="c-str">"1"</span>, target]
-result = subprocess.run(
-    command_vector,
-    <span class="c-good">shell=False</span>,  <span class="c-comment"># No shell interpreter invoked; metacharacters treated as literal</span>
-    capture_output=True,
-    text=True,
-    timeout=10
-)</code></pre>
+                    <div class="code-block-header green-header mt-4">
+                        <span class="code-title">Mitigated Implementation (app.py: /api/ping/mitigated)</span>
                     </div>
+                    <pre class="code-display"><code># Mitigation: Strict allow-list validation + Parameterized argument vector
+if not is_valid_target(target):  # Rejects metacharacters, spaces, etc.
+    return jsonify({"status": "blocked", "error": "Invalid target"}), 400
+
+# shell=False ensures ping.exe is executed directly without shell interpreter
+command_vector = ["ping", count_flag, "1", target]
+result = subprocess.run(command_vector, shell=False, capture_output=True, text=True)</code></pre>
                 </div>
 
                 <!-- Tab 2: Vulnerability Analysis -->
                 <div id="tab-analysis" class="tab-content">
                     <div class="analysis-box">
-                        <div class="analysis-card">
-                            <div class="analysis-card-header">
-                                <span class="sec-num">(a)</span>
-                                <h4>Vulnerable Implementation</h4>
-                            </div>
-                            <p>Located in <code>app.py</code> inside <code>ping_vulnerable()</code>. The route accepts arbitrary user input from POST body and directly formats it into a command string without sanitization, passing it to <code>subprocess.check_output(..., shell=True)</code>.</p>
-                        </div>
+                        <h3>(a) Vulnerable Implementation</h3>
+                        <p>Located in <code>app.py</code> inside <code>ping_vulnerable()</code>. The route accepts arbitrary user input from POST body and directly formats it into a command string.</p>
                         
-                        <div class="analysis-card">
-                            <div class="analysis-card-header">
-                                <span class="sec-num">(b)</span>
-                                <h4>Working Exploit Payload</h4>
-                            </div>
-                            <p><strong>Primary Payload:</strong> <code>127.0.0.1 &amp; whoami</code></p>
-                            <p>The ampersand (<code>&amp;</code>) acts as a command separator in <code>cmd.exe</code> (or <code>;</code> in bash). The system executes the ping, followed immediately by <code>whoami</code>. Because this is <em>Variant 1 (In-Band)</em>, stdout of the chained command is captured and returned directly inside the JSON response.</p>
-                        </div>
+                        <h3>(b) Working Exploit Payload</h3>
+                        <p><strong>Payload:</strong> <code>127.0.0.1 & whoami</code></p>
+                        <p>The ampersand (<code>&</code>) acts as a command separator in <code>cmd.exe</code> (or <code>;</code> in bash). The system executes the ping, followed immediately by <code>whoami</code>. Because this is <em>Variant 1 (In-Band)</em>, the output of <code>whoami</code> is piped directly into stdout and returned in the HTTP response body.</p>
 
-                        <div class="analysis-card callout-card">
-                            <div class="analysis-card-header">
-                                <span class="sec-num">(c)</span>
-                                <h4>Root Cause Analysis</h4>
-                            </div>
-                            <p class="highlight-text">
-                                <strong>Root Cause:</strong> User-supplied input is directly concatenated into a system shell command without sanitization or validation, and executed through an operating system shell interpreter (<code>shell=True</code>). The shell parses metacharacters as command control syntax rather than literal data.
-                            </p>
-                        </div>
+                        <h3>(c) Root Cause</h3>
+                        <p class="highlight-text">
+                            <strong>Root Cause:</strong> User-supplied input is directly concatenated into a system shell command without sanitization or validation, and executed through an operating system shell interpreter (<code>shell=True</code>). The shell parses metacharacters as command control syntax rather than literal data.
+                        </p>
 
-                        <div class="analysis-card">
-                            <div class="analysis-card-header">
-                                <span class="sec-num">(d)</span>
-                                <h4>Implemented Mitigation</h4>
-                            </div>
-                            <p><strong>Defense-in-depth:</strong> Parameterized execution using an argument vector with <code>shell=False</code> combined with strict allow-list input validation (verifying target strictly matches an IPv4/IPv6 address or RFC hostname). Malicious characters are rejected before execution or treated strictly as literal argument strings.</p>
-                        </div>
+                        <h3>(d) Implemented Mitigation</h3>
+                        <p><strong>Fix:</strong> Defense-in-depth using parameterized execution (passing an argument vector list with <code>shell=False</code>) and strict allow-list input validation (verifying target strictly matches an IPv4/IPv6 address or RFC hostname). When the exploit payload is sent, it is either blocked by validation or treated as an invalid literal host parameter, completely neutralizing execution.</p>
                     </div>
                 </div>
 
                 <!-- Tab 3: Mitigation Theory (Item e from PDF) -->
                 <div id="tab-mitigations" class="tab-content">
                     <div class="theory-box">
-                        <div class="theory-header">
-                            <h3>Alternative Defensive Strategies</h3>
-                            <p class="theory-sub">Theoretical mitigations from lecture material</p>
-                        </div>
+                        <h3>Theoretical Mitigations from Lecture Slides</h3>
                         
                         <div class="theory-item">
-                            <div class="theory-badge">01</div>
-                            <div class="theory-info">
-                                <h4>Avoid the Shell</h4>
-                                <p>Directly invoke binaries using system APIs (e.g., <code>execve</code> in POSIX, <code>CreateProcess</code> in Windows) or standard library network modules rather than passing strings through <code>sh</code>, <code>bash</code>, or <code>cmd.exe</code>. When no shell exists, metacharacters have no special parsing logic.</p>
-                            </div>
+                            <h4>1. Avoid the Shell</h4>
+                            <p>Directly invoke binaries using system APIs (e.g., <code>execve</code> in POSIX, <code>CreateProcess</code> in Windows) rather than passing strings through <code>sh</code>, <code>bash</code>, or <code>cmd.exe</code>. When no shell exists, metacharacters (<code>&</code>, <code>|</code>, <code>;</code>, <code>`</code>, <code>$()</code>) have no special parsing logic.</p>
                         </div>
 
                         <div class="theory-item">
-                            <div class="theory-badge">02</div>
-                            <div class="theory-info">
-                                <h4>Parameterized Execution (Argument Vectors)</h4>
-                                <p>Pass command arguments as separate elements of an array (e.g., <code>["ping", "-c", "1", user_input]</code>) with <code>shell=False</code>. The OS treats each vector entry strictly as literal data for that position, making command chaining syntactically impossible.</p>
-                            </div>
+                            <h4>2. Parameterised Execution with an Argument Vector</h4>
+                            <p>Pass command arguments as separate elements of an array/vector (e.g., <code>["ping", "-n", "1", user_input]</code>) with <code>shell=False</code>. The operating system treats the entire vector element as a single literal argument string to the executable, making command injection syntactically impossible.</p>
                         </div>
 
                         <div class="theory-item">
-                            <div class="theory-badge">03</div>
-                            <div class="theory-info">
-                                <h4>Allow-List Input Validation</h4>
-                                <p>Enforce strict syntactic rules using positive allow-lists rather than denylists. Validate inputs against strict data formats (e.g. IPv4/IPv6 parsers or RFC hostname regular expressions). Reject any input containing spaces, delimiters, or control characters before processing.</p>
-                            </div>
+                            <h4>3. Allow-List Input Validation</h4>
+                            <p>Enforce strict syntactic rules using positive allow-lists rather than blacklists. Validate inputs against strict data formats (e.g., strictly validating IPv4/IPv6 via <code>ipaddress</code> library, or regex <code>^[a-zA-Z0-9.-]+$</code>). Any input containing illegal punctuation or spaces is rejected before processing.</p>
                         </div>
 
                         <div class="theory-item">
-                            <div class="theory-badge">04</div>
-                            <div class="theory-info">
-                                <h4>Principle of Least Privilege</h4>
-                                <p>Execute the web server process under a dedicated, unprivileged service account with minimal filesystem and OS permissions. Deny access to sensitive shells, administrative binaries, and write access outside designated application directories to bound damage if an injection occurs.</p>
-                            </div>
+                            <h4>4. Principle of Least Privilege</h4>
+                            <p>Execute the web server process under a dedicated, unprivileged service account with minimal filesystem and operating system permissions. Prevent access to dangerous binaries, administrative commands, and write access outside designated application directories, bounding the impact if an injection flaw occurs.</p>
                         </div>
                     </div>
                 </div>
@@ -333,14 +196,11 @@ result = subprocess.run(
 
         <!-- Footer -->
         <footer class="app-footer">
-            <div class="footer-content">
-                <span class="footer-brand">Security Lab Suite · OS Command Injection (Variant 1)</span>
-                <span class="footer-sep">•</span>
-                <span class="footer-note">Defense-in-depth Demonstration Environment</span>
-            </div>
+            <p>Web Server Security Lab</p>
         </footer>
     </div>
 
     <script src="/static/js/main.js"></script>
 </body>
 </html>
+
