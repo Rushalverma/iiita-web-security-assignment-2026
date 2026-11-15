@@ -11,14 +11,22 @@ function setMode(mode) {
         btnVulnerable.classList.add("active");
         btnMitigated.classList.remove("active");
         alertBox.className = "mode-alert vulnerable-alert";
-        alertBox.innerHTML = `<strong>Mode: Vulnerable Endpoint (/api/ping/vulnerable)</strong>
-            <p>Concatenates raw user input into shell command string with <code>shell=True</code>. Metacharacters are interpreted and output is returned in-band.</p>`;
+        alertBox.innerHTML = `
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-body">
+                <strong>Active Target: /api/ping/vulnerable</strong>
+                <p>User input is interpolated directly into the system command string executed with <code>shell=True</code>. Metacharacters (<code>&amp;</code>, <code>&amp;&amp;</code>, <code>;</code>, <code>|</code>) are evaluated by the host shell and secondary command output returns in-band.</p>
+            </div>`;
     } else {
         btnMitigated.classList.add("active");
         btnVulnerable.classList.remove("active");
         alertBox.className = "mode-alert mitigated-alert";
-        alertBox.innerHTML = `<strong>Mode: Mitigated Endpoint (/api/ping/mitigated)</strong>
-            <p>Mitigated with parameterised execution (argument vector, <code>shell=False</code>) + allow-list validation. Shell metacharacters are safely neutralized or blocked.</p>`;
+        alertBox.innerHTML = `
+            <div class="alert-icon">🛡️</div>
+            <div class="alert-body">
+                <strong>Active Target: /api/ping/mitigated</strong>
+                <p>Mitigated via defense-in-depth: parameterised execution with an argument vector (<code>shell=False</code>) + strict allow-list validation. Metacharacters are neutralized or rejected with HTTP 400.</p>
+            </div>`;
     }
 }
 
@@ -40,7 +48,7 @@ function switchTab(tabId) {
     // Find the button that was clicked
     const buttons = document.querySelectorAll(".tab-btn");
     buttons.forEach(btn => {
-        if (btn.getAttribute("onclick").includes(tabId)) {
+        if (btn.getAttribute("onclick") && btn.getAttribute("onclick").includes(tabId)) {
             btn.classList.add("active");
         }
     });
@@ -61,8 +69,8 @@ async function executePing(event) {
     
     submitBtn.disabled = true;
     spinner.classList.remove("hidden");
-    terminalTitle.innerText = `Executing request via ${currentMode.toUpperCase()} endpoint...`;
-    terminalContent.innerText = `[+] Sending request to /api/ping/${currentMode} with target: ${target}\n[*] Waiting for in-band response...`;
+    terminalTitle.innerText = `Probing /api/ping/${currentMode}...`;
+    terminalContent.innerText = `[+] Transmitting payload to /api/ping/${currentMode} with target: ${target}\n[*] Awaiting in-band stream response...`;
 
     try {
         const response = await fetch(`/api/ping/${currentMode}`, {
@@ -79,7 +87,7 @@ async function executePing(event) {
         let outputText = "";
         outputText += `=================================================================\n`;
         outputText += `ENDPOINT: /api/ping/${data.mode}\n`;
-        outputText += `STATUS:   ${data.status.toUpperCase()}\n`;
+        outputText += `STATUS:   ${(data.status || "OK").toUpperCase()}\n`;
         if (data.command_executed) {
             outputText += `COMMAND:  ${data.command_executed}\n`;
         }
@@ -93,7 +101,7 @@ async function executePing(event) {
             outputText += `Evidence: The application rejected the input before passing it to any system call.`;
         } else if (data.status === "success" || data.status === "error") {
             if (data.mode === "vulnerable" && (target.includes("&") || target.includes(";") || target.includes("|"))) {
-                terminalTitle.innerText = "⚠ In-Band OS Command Output Captured!";
+                terminalTitle.innerText = "⚠️ In-Band OS Command Output Captured!";
             } else {
                 terminalTitle.innerText = "✓ Execution Completed";
             }
@@ -110,11 +118,10 @@ async function executePing(event) {
         terminalContent.innerText = outputText;
 
     } catch (err) {
-        terminalTitle.innerText = "Network Error";
+        terminalTitle.innerText = "Communication Fault";
         terminalContent.innerText = `[!] Network or server communication error: ${err.message}`;
     } finally {
         submitBtn.disabled = false;
         spinner.classList.add("hidden");
     }
 }
-
