@@ -24,7 +24,7 @@ The assignment covers SQL injection, OS command injection, XSS, and CSRF. Member
 
 **Member:** Rushal Verma · **Roll number:** IIT2024045
 
-A Flask and SQLite-based authentication lab demonstrating SQL injection through authentication bypass, along with its mitigation.
+A Node.js and Express authentication lab with a React frontend and in-memory SQLite. The walkthrough explains the authentication bypass flaw and demonstrates the parameterized login.
 
 [View project guide](IIT2024045/README.md)
 
@@ -68,9 +68,8 @@ Follow the setup instructions in the respective project guide.
 .
 ├── IIT2024045/                  Rushal's SQL injection project
 │   ├── README.md
-│   ├── app.py
-│   ├── static/
-│   ├── templates/
+│   ├── server/                  Express API, SQLite, and startup
+│   ├── src/                     React login page and styles
 │   ├── tests/
 │   ├── evidence/
 │   └── docs/

@@ -4,13 +4,12 @@
 
 The project guide links to the source, evidence, and study materials. [IIT2024045 module](../IIT2024045/README.md)
 
-- [x] Vulnerable implementation with clearly named code path.
-- [x] Parameterized implementation of the same login query.
-- [x] Exact exploit inputs and root-cause explanation.
+- [x] JavaScript mitigation demo with a parameterized SQLite login and root-cause explanation.
+- [ ] Confirm how to address the vulnerable implementation and working exploit requirements for the JavaScript version.
 - [x] Runnable behavioral test suite.
 - [x] Ownership entry: Rushal Verma, IIT2024045.
 - [x] Narration script and alternative-mitigation theory.
-- [x] Screenshots for the demonstration and mitigation checks.
+- [x] Screenshots for rejected and successful authentication on the JavaScript module.
 - [ ] Rushal has reviewed, run, and can explain the code himself.
 - [ ] Rushal has recorded his own 2-3 minute voice-over and screen demonstration.
 

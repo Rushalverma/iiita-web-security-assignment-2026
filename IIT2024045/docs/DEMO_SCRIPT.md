@@ -1,22 +1,17 @@
-# Rushal's SQL injection demonstration
+# Demo video script
 
-Assigned owner: **Rushal Verma - IIT2024045**.
+Rushal Verma · IIT2024045 · SQL injection authentication bypass
 
-Target duration: **2 minutes 30 seconds to 3 minutes**. Rehearse and explain the concepts in your own words. This is a narration guide, not a recording of your voice. Read the code and complete the walkthrough yourself before recording.
+Start the app. Open the browser, `server/database.js`, and `server/app.js`. Begin signed out. The script takes about 2–3 minutes with the on-screen actions. [Run instructions](../README.md#run-locally)
 
-Before recording, start the application and open the source in your editor. Make the text readable and use a fresh browser session for the walkthrough. [Application source](../app.py)
-
-| Time | Screen / action | Suggested narration |
+| Time | On screen | Say |
 | --- | --- | --- |
-| 0:00-0:15 | Lab overview showing name and roll number | "I am Rushal Verma, IIT2024045. My category is SQL injection, and my variant is authentication bypass. I will show a vulnerable login and the same attack blocked by parameterized queries." |
-| 0:15-0:35 | Open `authenticate_vulnerable` in `app.py` | "The login selects a user whose username and password match. This version puts both inputs directly into the SQL string. That allows input to change the SQL syntax." |
-| 0:35-0:50 | Vulnerable login: `admin` / `wrong-password` | "First I enter an ordinary username with a wrong password. Login is rejected, as expected." |
-| 0:50-1:15 | Vulnerable login: `admin' -- ` / `wrong-password`; show query inspector | "Now the username includes a quote followed by two hyphens and a space. The quote ends the username value, and the hyphens comment out the remaining password condition. The query returns the admin row even though this password is wrong." |
-| 1:15-1:25 | Click Open account dashboard | "The application creates an admin session. This protected page confirms the bypass affected authentication, rather than only displaying a success message." |
-| 1:25-1:50 | Open `authenticate_parameterized` in `app.py` | "My implemented mitigation is parameterized queries. The statement uses question-mark placeholders, and I pass the input values separately to execute. Input is treated as data rather than SQL syntax." |
-| 1:50-2:10 | Parameterized login: identical attack values | "I repeat exactly the same payload and wrong password. Login is rejected. The query template stays unchanged, and the entire injected string is treated as a literal username." |
-| 2:10-2:20 | Parameterized login: `admin` / `AdminDemo42!` | "A normal login with the correct password still works, so the fix preserves the intended behavior." |
-| 2:20-2:55 | Explain alternative mitigations, using notes if needed | "Allow-list validation restricts expected formats and helps with identifiers that cannot be bound as values. Least privilege limits damage, but does not repair the query. Generic errors reduce information leakage. Parameter binding is my main fix. These dummy passwords are plaintext only to isolate the SQL injection lesson; production authentication also needs proper password hashing." |
+| 0:00–0:25 | Show the login page and the name and roll number in the footer. | “Hi, I’m Rushal Verma, IIT2024045. My assigned variant is SQL injection authentication bypass. I’ll explain the vulnerability and show its mitigation using a React login page, an Express API, and SQLite.” |
+| 0:25–0:50 | Point to the explanation panel. | “A login is vulnerable when it puts user input directly into SQL source. The database can then interpret the input as part of the query. If the application trusts the resulting row as proof of identity, it can make an incorrect login decision.” |
+| 0:50–1:10 | Enter `o'connor` with a wrong password. Show the error. | “I’m signing in as the student account whose name includes an apostrophe. With the wrong password, the server rejects the login. No new session is created.” |
+| 1:10–1:45 | Show `db.prepare`, `findUser.get(username)`, and the password check in the user store. | “Here, the SQL is prepared using a question-mark placeholder. The lookup sends the username as a separate value. SQLite treats the apostrophe as part of the name. Node then checks the password against the salted hash stored for the account. The Express route creates a session only if that check succeeds.” |
+| 1:45–2:15 | Enter the same username with its correct demo password. Show the student dashboard, refresh, then sign out. | “With the correct password, the same username opens the student dashboard. Refreshing keeps the session. Signing out destroys the session and returns me to the login form.” |
+| 2:15–2:40 | Return to the query and session code. | “Parameterized queries keep the SQL structure fixed. Input validation, limited database privileges, and generic error messages are additional layers. This walkthrough verifies the mitigation using a legitimate value and two different password outcomes.” |
 
-Finish on the blocked-attempt screenshot or code comparison. Record your own voice; do not submit the silent reference capture as the final narrated group video. Combine your segment with the other members' segments according to the course instructions.
+The wrong-password clip verifies login rejection. The apostrophe in the student's username is a legitimate data value. The recording covers the mitigation and a conceptual explanation of the vulnerability. [User store](../server/database.js) · [Express routes](../server/app.js)
 
