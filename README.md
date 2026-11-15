@@ -1,6 +1,6 @@
 # Web Server Security Assignment
 
-**Cyber Security (IT-30001) · IIIT Allahabad · Autumn 2026**
+**Cyber Security (IT-30001) · IIIT Allahabad · Autumn  2026**
 
 This repository contains individual projects developed for the Web Server Security assignment. Each member's implementation is maintained in a separate folder named after their roll number.
 
