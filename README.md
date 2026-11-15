@@ -1,10 +1,10 @@
 # Web Server Security Assignment
 
-**Cyber Security (IT-30001) · IIIT Allahabad · Autumn 2026**
+**Cyber Security (IT-30001) · IIIT Allahabad · Autumn  2026**
 
 This repository contains individual projects developed for the Web Server Security assignment. Each member's implementation is maintained in a separate folder named after their roll number.
 
-Each project guide covers setup, the assigned vulnerability, its mitigation, and the available demonstration evidence.
+Each project guide covers setup,  the assigned vulnerability, its mitigation, and the available demonstration evidence.
 
 ## Group ownership
 
@@ -12,7 +12,7 @@ Each project guide covers setup, the assigned vulnerability, its mitigation, and
 |---|---|---|---|---|
 | Rushal Verma | IIT2024045 | SQL Injection | Authentication bypass | [SQL authentication lab](IIT2024045/README.md) |
 | Herit Desai | IIT2024054 | Cross-Site Scripting (XSS) | Reflected XSS | [Reflected XSS project](IIT2024054/README.md) |
-| Surbhi Kumari Sah | IIT2024063 | Cross-Site Scripting (XSS) | Stored XSS | [Stored XSS project](IIT2024063/README.md) |
+| Surbhi Kumari Sah | IIT2024063 | Cross-Site Scripting  (XSS) | Stored XSS | [Stored XSS project](IIT2024063/README.md) |
 
 Two ownership entries and their projects are pending. Add each row when the member's name, roll number, and variant are confirmed.
 
