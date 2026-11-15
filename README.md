@@ -12,7 +12,7 @@ Each project guide covers setup,  the assigned vulnerability, its mitigation, an
 |---|---|---|---|---|
 | Rushal Verma | IIT2024045 | SQL Injection | Authentication bypass | [SQL authentication lab](IIT2024045/README.md) |
 | Herit Desai | IIT2024054 | Cross-Site Scripting (XSS) | Reflected XSS | [Reflected XSS project](IIT2024054/README.md) |
-| Surbhi Kumari Sah | IIT2024063 | Cross-Site Scripting (XSS) | Stored XSS | [Stored XSS project](IIT2024063/README.md) |
+| Surbhi Kumari Sah | IIT2024063 | Cross-Site Scripting  (XSS) | Stored XSS | [Stored XSS project](IIT2024063/README.md) |
 
 Two ownership entries and their projects are pending. Add each row when the member's name, roll number, and variant are confirmed.
 
