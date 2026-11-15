@@ -4,7 +4,7 @@
 | --- | --- | --- | --- |
 | Rushal Verma | IIT2024045 | SQL injection | Authentication bypass |
 
-This local lab implements the mitigation for SQL injection in a login form. React sends the form to Express. SQLite looks up the account using a prepared statement, and Node.js checks the password hash before Express creates a session. The guide explains the original vulnerability conceptually.
+This local lab illustrates what an authentication bypass would look like and runs a login that demonstrates the mitigation. React sends the form to Express. SQLite looks up the account using a prepared statement, and Node.js checks the password hash before Express creates a session.
 
 ## Run locally
 
@@ -48,10 +48,12 @@ Input length and type checks help define valid requests. Least privilege limits 
 
 ## Demonstrate and verify
 
-1. Sign in as `o'connor` with a wrong password. The app displays **Invalid username or password**.
-2. Point to the prepared statement and the bound username in `server/database.js`.
-3. Use the same username with its correct demo password. The student dashboard opens. Refresh to check that the session still works.
-4. Sign out and refresh. The login form is visible again.
+1. Point to **What a bypass would look like**. This is a hypothetical outcome where an incorrect login decision opens a session without credential proof.
+2. Begin signed out. Sign in as `o'connor` with a wrong password. The app displays **Invalid username or password**. Opening `/api/account` while signed out returns HTTP 401.
+3. Point to the prepared statement and the bound username in `server/database.js`.
+4. Use the same username with its correct demo password. The student dashboard opens. Refresh to check that the session still works, then sign out.
+
+The failed login and valid login verify credential and session checks. The apostrophe belongs to a legitimate demo username. Evidence of a working exploit remains an open assignment item.
 
 Run `npm test` to verify the Express API and the session lifecycle. The app is scoped to the local classroom demonstration and uses an in-memory session store.
 

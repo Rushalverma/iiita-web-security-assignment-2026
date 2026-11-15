@@ -1,17 +1,16 @@
 # Demo video script
 
-Rushal Verma · IIT2024045 · SQL injection authentication bypass
+Rushal Verma · IIT2024045 · Authentication bypass concept and live mitigation
 
 Start the app. Open the browser, `server/database.js`, and `server/app.js`. Begin signed out. The script takes about 2–3 minutes with the on-screen actions. [Run instructions](../README.md#run-locally)
 
 | Time | On screen | Say |
 | --- | --- | --- |
-| 0:00–0:25 | Show the login page and the name and roll number in the footer. | “Hi, I’m Rushal Verma, IIT2024045. My assigned variant is SQL injection authentication bypass. I’ll explain the vulnerability and show its mitigation using a React login page, an Express API, and SQLite.” |
-| 0:25–0:50 | Point to the explanation panel. | “A login is vulnerable when it puts user input directly into SQL source. The database can then interpret the input as part of the query. If the application trusts the resulting row as proof of identity, it can make an incorrect login decision.” |
-| 0:50–1:10 | Enter `o'connor` with a wrong password. Show the error. | “I’m signing in as the student account whose name includes an apostrophe. With the wrong password, the server rejects the login. No new session is created.” |
-| 1:10–1:45 | Show `db.prepare`, `findUser.get(username)`, and the password check in the user store. | “Here, the SQL is prepared using a question-mark placeholder. The lookup sends the username as a separate value. SQLite treats the apostrophe as part of the name. Node then checks the password against the salted hash stored for the account. The Express route creates a session only if that check succeeds.” |
-| 1:45–2:15 | Enter the same username with its correct demo password. Show the student dashboard, refresh, then sign out. | “With the correct password, the same username opens the student dashboard. Refreshing keeps the session. Signing out destroys the session and returns me to the login form.” |
-| 2:15–2:40 | Return to the query and session code. | “Parameterized queries keep the SQL structure fixed. Input validation, limited database privileges, and generic error messages are additional layers. This walkthrough verifies the mitigation using a legitimate value and two different password outcomes.” |
+| 0:00–0:20 | Show the page and your name and roll number in the footer. | “Hi, I’m Rushal Verma, IIT2024045. My topic is SQL injection authentication bypass. First I’ll explain what counts as a bypass, then I’ll show how this login prevents it.” |
+| 0:20–0:55 | Point to **What a bypass would look like** and **Bypass outcome**. | “An authentication bypass means getting signed-in access without proving valid credentials. In this hypothetical example, SQL injection changes the login query and it returns an administrator row. A vulnerable app grants access based on that result alone. The bypass is the unauthorized session.” |
+| 0:55–1:35 | Show `db.prepare` and `findUser.get(username)` in the user store, then point to the hash check. | “My app prepares the SQL with a question-mark placeholder and passes the username separately. SQLite uses it as data. The lookup identifies an account, and the app verifies the password before Express creates a session.” |
+| 1:35–2:05 | Sign in as `o'connor` with a wrong password. Show the error. Open `/api/account` on the same server in another tab and show its sign-in error. | “This is a normal failed login. The apostrophe is part of a real demo username. With the wrong password, I get a rejection and the protected account endpoint stays inaccessible.” |
+| 2:05–2:40 | Return to the login tab. Use the same username with its correct demo password, show the dashboard, then sign out. | “The correct password opens the session for the same user. That shows the protection keeps ordinary logins working. Parameter binding keeps the SQL fixed. Input validation, limited privileges, and generic errors provide additional layers.” |
 
-The wrong-password clip verifies login rejection. The apostrophe in the student's username is a legitimate data value. The recording covers the mitigation and a conceptual explanation of the vulnerability. [User store](../server/database.js) · [Express routes](../server/app.js)
+The bypass scene is conceptual. The live sequence checks that invalid credentials leave the protected endpoint inaccessible and valid credentials open it. Evidence of a working exploit remains outstanding. [User store](../server/database.js) · [Express routes](../server/app.js)
 

@@ -80,10 +80,10 @@ function App() {
 
       <main className="shell">
         <section className="intro" aria-labelledby="page-title">
-          <h1 id="page-title">SQL injection<br />authentication bypass</h1>
+          <h1 id="page-title">Preventing SQL injection<br />in login</h1>
           <p>
-            See how a prepared SQLite statement keeps the login query fixed
-            while Express verifies the password and React displays the result.
+            Understand authentication bypass and try a login that keeps user
+            input separate from SQL code.
           </p>
         </section>
 
@@ -133,8 +133,21 @@ function App() {
               <li>The username is supplied as a separate value.</li>
               <li>Express opens a session after checking the password hash.</li>
             </ol>
-            <h3>Where a bypass can start</h3>
-            <p>When untrusted input is built into SQL source, it can change the login query’s meaning. A parameter keeps the value separate from that source.</p>
+            <h3>What a bypass would look like</h3>
+            <p>
+              Imagine SQL injection causes the login query to return the
+              administrator’s account without proving the password.
+            </p>
+            <dl className="decisions">
+              <div>
+                <dt>Bypass outcome</dt>
+                <dd>The login grants access based on the returned row alone.</dd>
+              </div>
+              <div>
+                <dt>Correct decision</dt>
+                <dd>The login denies access until the password is verified.</dd>
+              </div>
+            </dl>
           </aside>
         </div>
       </main>
