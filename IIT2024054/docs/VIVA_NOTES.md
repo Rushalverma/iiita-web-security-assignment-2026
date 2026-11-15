@@ -1,16 +1,6 @@
-# Herit Desai's demo and viva notes
+# Reflected XSS viva notes
 
-Herit Desai · IIT2024054 · Reflected XSS
-
-Start the app before recording. Keep the browser and the Express and React source files open. The outline is designed for a 2–3 minute segment in Herit's own voice. [Run instructions](../README.md#run-locally)
-
-| Time | What to show | What to explain |
-| --- | --- | --- |
-| 0:00–0:25 | Lab home page and an ordinary search | Introduce your assigned variant. Point to the query in the URL and the result on the page. |
-| 0:25–0:55 | The JSON request in the Network panel | Express reads the input from the current request. The response carries the string as JSON data. |
-| 0:55–1:35 | The markup example and the result in the Elements panel | Explain that the displayed angle brackets are part of a text node. An unsafe application can let untrusted request data change how the browser parses the page. |
-| 1:35–2:05 | The React result element and the Express response headers | Point to the JSX text child as the mitigation. Explain how the JSON content type and CSP provide additional protection. |
-| 2:05–2:35 | Clear the search and summarize other mitigations | Connect the empty result to the current request. Describe when to use a sanitizer for rich text or context-specific encoding for server templates. |
+Herit Desai · IIT2024054
 
 ## Viva questions
 
@@ -29,5 +19,3 @@ Start the app before recording. Keep the browser and the Express and React sourc
 **What does CSP add?** It sets browser rules for scripts and resources. This app uses a fixed same-origin policy alongside text rendering.
 
 **How did you verify the mitigation?** Ordinary searches still work. The markup example displays all its characters, and the output has zero element children. Clearing the query removes the result.
-
-The recorded segment should distinguish mitigation evidence from the assignment's exploit requirement. The module explains the vulnerable path conceptually and supplies a running mitigation demo.

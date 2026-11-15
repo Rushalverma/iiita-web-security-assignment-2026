@@ -61,4 +61,4 @@ The React result uses the query string as JSX text. React creates a text node, w
 
 Run `npm test` from this folder to check the API response, text round trip, empty input, and input limits. The browser demonstration checks that the result contains text with zero element children and that clearing the search removes the result. GitHub Actions builds the frontend and runs the API checks for changes to this module. [Verification workflow](../.github/workflows/reflected-xss.yml)
 
-[Demo video script](docs/DEMO_SCRIPT.md) · [Viva notes](docs/DEMO_AND_VIVA.md) · [Group checklist](../docs/SUBMISSION_CHECKLIST.md)
+[Viva notes](docs/VIVA_NOTES.md) · [Group checklist](../docs/SUBMISSION_CHECKLIST.md)

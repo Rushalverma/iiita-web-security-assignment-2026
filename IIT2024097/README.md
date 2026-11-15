@@ -5,7 +5,9 @@ Course: Cyber Security (IT-30001), IIIT Allahabad - Web Server Security assignme
 ## Ownership declaration (Table 3)
 | Category | Variant | Member |
 |---|---|---|
-| CSRF | GET-based forged action | **Panara Bhavya (IIT2024097)** |
+| CSRF | GET-based forged action | **Bhavya Panara (IIT2024097)** |
+
+**Repository status:** The Flask implementation, validation notes, and screenshots are present. [Group ownership and project status](../README.md#group-ownership-and-project-status)
 
 ## Setup
 ```bash
